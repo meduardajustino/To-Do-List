@@ -40,6 +40,7 @@ function App() {
   }, [isRunning, isOnBreak]);
 
   const toggleTimer = () => {
+    console.log('Timer button');
     setIsRunning(!isRunning);
   };
 
@@ -78,6 +79,7 @@ function App() {
         <div className="absolute bottom-4 right-4">
           <button
             onClick={toggleTimer}
+            onTouchStart={toggleTimer}
             className="bg-pink-400 hover:bg-pink-600 text-white text-lg font-semibold py-2 px-4 rounded-lg"
           >
             {isRunning ? 'Pause' : 'Start'} Timer
