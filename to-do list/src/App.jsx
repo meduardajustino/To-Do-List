@@ -17,7 +17,7 @@ function App() {
       "url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')",
       "url('https://i.ibb.co/Ny5TBr3/photos.jpg')",
       "url('https://i.ibb.co/5FrWYcL/photos-1.jpg')",
-      <a href="https://ibb.co/k14g3cX"><img src="https://i.ibb.co/jRyvV4D/photos-1.jpg" alt="photos-1" border="0" /></a>
+      ""
     ];
   
     const changeBackground = (index) => {
@@ -84,7 +84,7 @@ function App() {
           />
 
           {/* Relógio pm/am */}
-          <div className="absolute top-4 right-4 text-white text-3xl font-semibold">
+          <div className="absolute top-4 right-4 text-white text-2xl font-semibold">
             {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
           </div>
 
@@ -93,7 +93,7 @@ function App() {
           <Input taskList={taskList} setTaskList={setTaskList} />
 
           {/* To-Do List */}
-          <div className="flex flex-col gap-2 mt-3 text-white items-center w-full">
+          <div className="flex flex-col gap-2 mt-3 text-white items-center justify-center w-full h-auto">
             {taskList.map((task, index) => (
               <Board
                 key={index}
@@ -104,6 +104,7 @@ function App() {
               />
             ))}
           </div>
+
 
         {/* Botão do método pomodoro */}
         <div className="absolute bottom-4 right-4">
