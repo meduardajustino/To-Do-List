@@ -93,7 +93,7 @@ function App() {
         
           {/* Títulos Centralizados */}
           <div className="text-center">
-            <h1 className="text-5.2xl font-bold text-white">TO-DO LIST</h1>
+            <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
             <h2 className="text-1xl font-medium text-pink-600">@iemstudies</h2>
           </div>
         
