@@ -77,23 +77,28 @@ function App() {
             minHeight: "100vh",
             transition: "background 0.5s ease-in-out",
           }}
-          className="relative"
+          className="relative flex flex-col justify-center items-center"
         >
+          
           {/* Componente para troca de fundo */}
           <Photo
             backgrounds={backgrounds}
             onBackgroundChange={changeBackground}
           />
-
+        
           {/* Relógio pm/am */}
           <div className="absolute top-4 right-4 text-white text-2xl font-semibold">
             {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
           </div>
-
-          <h1 className="text-6xl font-bold text-white">TO-DO LIST</h1>
-          <h2 className="text-2xl font-medium text-pink-600">@iemstudies</h2>
+        
+          {/* Títulos Centralizados */}
+          <div className="text-center">
+            <h1 className="text-6xl font-bold text-white">TO-DO LIST</h1>
+            <h2 className="text-2xl font-medium text-pink-600">@iemstudies</h2>
+          </div>
+        
           <Input taskList={taskList} setTaskList={setTaskList} />
-
+        
           {/* To-Do List */}
           <div className="flex flex-col gap-2 mt-3 text-white items-center justify-center w-full h-auto">
             {taskList.map((task, index) => (
@@ -106,7 +111,6 @@ function App() {
               />
             ))}
           </div>
-
 
         {/* Botão do método pomodoro */}
         <div className="absolute bottom-4 right-4">
@@ -132,25 +136,26 @@ function App() {
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
             loading="lazy"
             className="rounded-lg"
+            padding="1rem"
           ></iframe>
         </div>
       </div>
 
-      {/* YouTube Playlist */}  
-      <div className="absolute top-3 left-3">
-        <iframe
-          width="250"
-          height="140"
-          src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          className="rounded-lg"
-        ></iframe>
-      </div>
-
+        {/* YouTube Playlist */}  
+        <div className="absolute top-3 left-3">
+          <iframe
+            width="250"
+            height="140"
+            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="rounded-lg"
+            padding="1rem"
+          ></iframe>
+        </div>
     </>
   );
 }
