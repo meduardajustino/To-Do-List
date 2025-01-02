@@ -10,14 +10,14 @@ function App() {
   const [secondsLeft, setSecondsLeft] = useState(50 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isOnBreak, setIsOnBreak] = useState(false);
-
   
     // troca de fundo
     const [backgroundImage, setBackgroundImage] = useState("url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')");
     const backgrounds = [
       "url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')",
-      "url('https://i.ibb.co/wS08FHb/Design-sem-nome.png')",
-      "url('https://i.ibb.co/5vLdtRT/Design-sem-nome-1.png')",
+      "url('https://i.ibb.co/Ny5TBr3/photos.jpg')",
+      "url('https://i.ibb.co/5FrWYcL/photos-1.jpg')",
+      <a href="https://ibb.co/k14g3cX"><img src="https://i.ibb.co/jRyvV4D/photos-1.jpg" alt="photos-1" border="0" /></a>
     ];
   
     const changeBackground = (index) => {
@@ -84,26 +84,26 @@ function App() {
           />
 
           {/* Relógio pm/am */}
-        <div className="absolute top-4 right-4 text-white text-2xl font-semibold">
-          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
-        </div>
+          <div className="absolute top-4 right-4 text-white text-3xl font-semibold">
+            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+          </div>
 
-        <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
-        <h2 className="text-xl font-medium text-pink-600">@iemstudies</h2>
-        <Input taskList={taskList} setTaskList={setTaskList} />
+          <h1 className="text-6xl font-bold text-white">TO-DO LIST</h1>
+          <h2 className="text-2xl font-medium text-pink-600">@iemstudies</h2>
+          <Input taskList={taskList} setTaskList={setTaskList} />
 
-        {/* To-Do List */}
-        <div className="flex flex-col gap-2 mt-3 text-white items-center w-full">
-          {taskList.map((task, index) => (
-            <Board
-              key={index}
-              task={task}
-              index={index}
-              taskList={taskList}
-              setTaskList={setTaskList}
-            />
-          ))}
-        </div>
+          {/* To-Do List */}
+          <div className="flex flex-col gap-2 mt-3 text-white items-center w-full">
+            {taskList.map((task, index) => (
+              <Board
+                key={index}
+                task={task}
+                index={index}
+                taskList={taskList}
+                setTaskList={setTaskList}
+              />
+            ))}
+          </div>
 
         {/* Botão do método pomodoro */}
         <div className="absolute bottom-4 right-4">
