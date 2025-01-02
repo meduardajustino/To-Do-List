@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Input from './components/input';
 import Board from "./components/Board";
-import Photo from "./components/Photo";
+import Photo from './components/Photo.jsx';
 import "./App.css";
 
 function App() {
@@ -67,8 +67,23 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center py-8 gap-4 bg-[url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')] bg-cover bg-center min-h-screen relative">
-        {/* Relógio pm/am */}
+        <div
+          style={{
+            backgroundImage: backgroundImage,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "100vh",
+            transition: "background 0.5s ease-in-out",
+          }}
+          className="relative"
+        >
+          {/* Componente para troca de fundo */}
+          <Photo
+            backgrounds={backgrounds}
+            onBackgroundChange={changeBackground}
+          />
+
+          {/* Relógio pm/am */}
         <div className="absolute top-4 right-4 text-white text-2xl font-semibold">
           {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
         </div>
@@ -119,7 +134,7 @@ function App() {
       </div>
 
       {/* YouTube Playlist */}  
-      <div className="absolute top-3 right-3">
+      <div className="absolute top-3 left-3">
         <iframe
           width="250"
           height="140"

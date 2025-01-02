@@ -1,40 +1,24 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .background-selector {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 10;
-  }
-  
-  .dot {
-    width: 15px;
-    height: 15px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s;
-  }
-  
-  .dot:hover {
-    transform: scale(1.2);
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-  
-  .content {
-    text-align: center;
-    padding: 50px;
-    color: white;
-  }
-  
-  .title {
-    font-size: 2.5em;
-  }
-  
+.background-selector {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+  background-color: rgba(255, 255, 255, 0.8);
+}
