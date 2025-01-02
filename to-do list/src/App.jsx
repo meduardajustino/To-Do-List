@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from "react";
 import Input from './components/input';
 import Board from "./components/Board";
+import Photo from "./components/Photo";
+import "./App.css";
 
 function App() {
   const [taskList, setTaskList] = useState([]);
@@ -9,6 +11,19 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [isOnBreak, setIsOnBreak] = useState(false);
 
+  
+    // troca de fundo
+    const [backgroundImage, setBackgroundImage] = useState("url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')");
+    const backgrounds = [
+      "url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')",
+      "url('https://i.ibb.co/wS08FHb/Design-sem-nome.png')",
+      "url('https://i.ibb.co/5vLdtRT/Design-sem-nome-1.png')",
+    ];
+  
+    const changeBackground = (index) => {
+      setBackgroundImage(backgrounds[index]);
+    };
+  
   // Funcionalidade do método pomodoro
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -79,7 +94,6 @@ function App() {
         <div className="absolute bottom-4 right-4">
           <button
             onClick={toggleTimer}
-            onTouchStart={toggleTimer}
             className="bg-pink-400 hover:bg-pink-600 text-white text-lg font-semibold py-2 px-4 rounded-lg"
           >
             {isRunning ? 'Pause' : 'Start'} Timer
@@ -103,6 +117,22 @@ function App() {
           ></iframe>
         </div>
       </div>
+
+      {/* YouTube Playlist */}  
+      <div className="absolute top-3 right-3">
+        <iframe
+          width="250"
+          height="140"
+          src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="rounded-lg"
+        ></iframe>
+      </div>
+
     </>
   );
 }
