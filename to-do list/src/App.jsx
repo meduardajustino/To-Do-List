@@ -30,6 +30,12 @@ function App() {
     const changeBackground = (index) => {
       setBackgroundImage(backgrounds[index]);
     };
+
+    const playSound = () => {
+      const audio = new Audio('components/sounds/sino.mp3');
+      audio.play();
+    };
+  
   
   // Funcionalidade do método pomodoro
   useEffect(() => {
@@ -47,10 +53,12 @@ function App() {
             if (isOnBreak) {
               // fim da pausa, iniciar novo ciclo
               setIsOnBreak(false);
+              playSound(); // sino quando pausa termina
               return 50 * 60; // volta ao ciclo
             } else {
               // ciclo termina, iniciar descanso
               setIsOnBreak(true);
+              playSound(); // sino quando ciclo termina
               return 10 * 60;
             }
           }
