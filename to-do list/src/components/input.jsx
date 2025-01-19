@@ -17,10 +17,6 @@ const Input = ({ taskList, setTaskList }) => {
             <form className="flex flex-row items-center gap-3">
                 <input 
                     type="text"
-                    style={{
-                        backgroundColor: 'rgba(255, 182, 193, 0.5)', 
-                        border: '1px solid #f8b8d9'
-                    }}
                     className="border rounded-lg py-1.5 px-5"
                     placeholder="Digite os objetivos do dia"
                     value={input}
