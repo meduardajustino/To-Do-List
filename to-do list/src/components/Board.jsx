@@ -19,8 +19,8 @@ const Board = ({ task, index, taskList, setTaskList }) => {
         isCompleted ? "line-through text-gray-500" : ""
       }`}
       style={{
-        backgroundColor: 'rgba(255, 182, 193, 0.4)',
-        border: '1px solid rgba(255, 182, 193, 0.1)',
+        backgroundColor: 'rgba(255, 182, 193, 0.6)',
+        border: '1px solid rgba(255, 182, 193, 1)',
       }}
     >
       <p onClick={toggleComplete} className="cursor-pointer flex-grow text-left">
@@ -29,7 +29,7 @@ const Board = ({ task, index, taskList, setTaskList }) => {
       <button
         onClick={handleDelete}
         style={{
-          backgroundColor: 'rgba(255, 105, 135, 0.7)', // Rosa mais avermelhado
+          backgroundColor: 'rgba(255, 105, 135, 0.7)',
           border: '1px solid white',
         }}
         className="text-white rounded-lg py-1 px-2 ml-4"
