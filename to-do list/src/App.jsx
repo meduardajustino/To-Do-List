@@ -5,7 +5,12 @@ import Photo from './components/Photo.jsx';
 import "./App.css";
 
 function App() {
-  const [taskList, setTaskList] = useState([]);
+  const getTasksFromLocalStorage = () => {
+    const storedTasks = localStorage.getItem('tasks');
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  };
+  
+  const [taskList, setTaskList] = useState(getTasksFromLocalStorage());
   const [time, setTime] = useState(new Date());
   const [secondsLeft, setSecondsLeft] = useState(50 * 60);
   const [isRunning, setIsRunning] = useState(false);
@@ -55,6 +60,10 @@ function App() {
     }
     return () => clearInterval(interval);
   }, [isRunning, isOnBreak]);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+  }, [taskList]);
 
   const toggleTimer = () => {
     console.log('Timer button');
