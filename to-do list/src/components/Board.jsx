@@ -29,7 +29,7 @@ const Board = ({ task, index, taskList, setTaskList }) => {
       <button
         onClick={handleDelete}
         style={{
-          backgroundColor: 'rgba(255, 105, 135, 0.7)',
+          backgroundColor: 'rgba(244, 114, 182, 0.7)',
           border: '1px solid white',
         }}
         className="text-white rounded-lg py-1 px-2 ml-4"
