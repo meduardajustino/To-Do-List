@@ -26,6 +26,7 @@ function App() {
       "url('https://i.ibb.co/QQXK42b/c89312ee02d8daef1bb8b0804cbfdf2e-1.jpg')",
       "url('https://i.ibb.co/2NMVSWD/bub.jpg')",
       "url('https://i.ibb.co/SnHkCNb/wallpaperr.jpg')",
+      "url('https://i.pinimg.com/1200x/f8/dc/7e/f8dc7e7256c8efea5e11ae30e966901b.jpg')",
     ];
   
     const changeBackground = (index) => {
