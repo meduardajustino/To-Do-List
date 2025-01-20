@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import Input from './components/input';
 import Board from "./components/Board";
 import Photo from './components/Photo.jsx';
+import sino from './components/sounds/sino.mp3';
 import "./App.css";
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
     };
 
     const playSound = () => {
-      const audio = new Audio('components/sounds/sino.mp3');
+      const audio = new Audio(sino);
       audio.play();
     };
   
@@ -77,7 +78,10 @@ function App() {
 
   const toggleTimer = () => {
     console.log('Timer button');
-    setIsRunning(!isRunning);
+    setIsRunning(!isRunning)
+    if (!isRunning) {
+      playSound(); // Toca o som quando o temporizador começa
+    }
   };
 
   const formatTime = (seconds) => {
