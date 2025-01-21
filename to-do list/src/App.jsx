@@ -55,15 +55,15 @@ function App() {
             if (isOnBreak) {
               // fim da pausa, iniciar novo ciclo
               setIsOnBreak(false);
-              playSound();
               playSound(); // sino quando pausa termina
               return 50 * 60; // volta ao ciclo
+              playSound();
             } else {
               // ciclo termina, iniciar descanso
               setIsOnBreak(true);
-              playSound();
               playSound(); // sino quando ciclo termina
               return 10 * 60;
+              playSound();
             }
           }
           return prev - 1;
