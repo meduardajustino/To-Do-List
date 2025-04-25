@@ -184,4 +184,55 @@ function App() {
   );
 }
 
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const entrarEmTelaCheia = () => {
+    let docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+      docElm.requestFullscreen();
+    } else if (docElm.webkitRequestFullscreen) { // Safari
+      docElm.webkitRequestFullscreen();
+    } else if (docElm.msRequestFullscreen) { // IE/Edge
+      docElm.msRequestFullscreen();
+    }
+
+    setIsFullscreen(true);
+  };
+
+  const sairDeTelaCheia = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { // Safari
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE/Edge
+      document.msExitFullscreen();
+    }
+
+    setIsFullscreen(false);
+  };
+
+  return (
+    <div className="App">
+      <div
+        style={{
+          backgroundImage: "url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+          transition: "background 0.5s ease-in-out",
+        }}
+        className="relative flex flex-col justify-center items-center"
+      >
+        <h1 className="text-white text-5xl">Minha Aplicação Fullscreen</h1>
+        <button
+          onClick={isFullscreen ? sairDeTelaCheia : entrarEmTelaCheia}
+          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+        >
+          {isFullscreen ? "Sair do Fullscreen" : "Entrar em Fullscreen"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default App;
