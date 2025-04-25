@@ -206,7 +206,7 @@ function App() {
         {/* Botão Fullscreen */}
         <button
           onClick={isFullscreen ? sairDeTelaCheia : entrarEmTelaCheia}
-          className="bg-pink-300 hover:bg-pink-400 text-white py-1 px-3 rounded absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-80"
+          className="bg-pink-300 hover:bg-pink-400 text-white py-1 px-3 rounded absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-40"
         >
           {isFullscreen ? "Not Fullscreen" : "Fullscreen"}
         </button>
