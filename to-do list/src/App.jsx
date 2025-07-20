@@ -18,14 +18,14 @@ function App() {
   const [isOnBreak, setIsOnBreak] = useState(false);
 
   // Troca de fundo
-  const [backgroundImage, setBackgroundImage] = useState("url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')");
+  const [backgroundImage, setBackgroundImage] = useState("url('https://i.ibb.co/QFrGgRHR/my-aura.jpg')");
   const backgrounds = [
-    "url('https://i.ibb.co/3TJQ4V1/wallpaper.jpg')",
+    "url('https://i.ibb.co/QFrGgRHR/my-aura.jpg')",
     "url('https://i.ibb.co/Ny5TBr3/photos.jpg')",
     "url('https://i.ibb.co/5FrWYcL/photos-1.jpg')",
     "url('https://i.ibb.co/QQXK42b/c89312ee02d8daef1bb8b0804cbfdf2e-1.jpg')",
     "url('https://i.ibb.co/2NMVSWD/bub.jpg')",
-    "url('https://i.ibb.co/SnHkCNb/wallpaperr.jpg')",
+    "url('https://i.ibb.co/mFq7CyTx/10-things.jpg')",
     "url('https://i.pinimg.com/1200x/f8/dc/7e/f8dc7e7256c8efea5e11ae30e966901b.jpg')",
   ];
 
