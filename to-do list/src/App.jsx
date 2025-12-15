@@ -6,6 +6,7 @@ import Stats from './components/Stats.jsx';
 import sino from './components/sounds/sino.mp3';
 import "./App.css";
 
+
 // ============ SETUP INDEXEDDB ============
 const initDatabase = () => {
   return new Promise((resolve) => {
@@ -48,6 +49,7 @@ const getFromIndexedDB = async (key) => {
   }
 };
 
+
 function App() {
   const getTasksFromLocalStorage = () => {
     const storedTasks = localStorage.getItem('tasks');
@@ -60,7 +62,7 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [isOnBreak, setIsOnBreak] = useState(false);
 
-  // ============ NOVOS ESTADOS DE USUÁRIO ============
+  // ============ ESTADOS DE USUÁRIO ============
   const [userName, setUserName] = useState('');
   const [showUserSetup, setShowUserSetup] = useState(true);
 
@@ -77,6 +79,7 @@ function App() {
   }, []);
 
   const [horasEstudadas, setHorasEstudadas] = useState({});
+
   // ============ CARREGAR HORAS DO INDEXEDDB ============
   useEffect(() => {
     const loadHoras = async () => {
@@ -88,14 +91,17 @@ function App() {
     loadHoras();
   }, []);
   
+  // === ESTUDO HOJE E DATA ===
   const [estudoHoje, setEstudoHoje] = useState(() => {
-    const hoje = new Date().toISOString().split('T');
+    const hoje = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
     const saved = localStorage.getItem(`estudo_${hoje}`);
     return saved ? JSON.parse(saved) : { minutos: 0, ciclos: 0 };
   });
+
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState(
-    localStorage.getItem('ultimaAtualizacao') || new Date().toISOString().split('T')
+    localStorage.getItem('ultimaAtualizacao') || new Date().toISOString().split('T')[0]
   );
+
   const [showStats, setShowStats] = useState(false);
 
   // Troca de fundo
@@ -114,9 +120,31 @@ function App() {
     setBackgroundImage(backgrounds[index]);
   };
 
+  // === SONS ===
   const playSound = () => {
     const audio = new Audio(sino);
-    audio.play();
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+      // navegador pode bloquear antes da 1ª interação
+    });
+  };
+
+  const playSoundThreeTimes = async () => {
+    try {
+      for (let i = 0; i < 3; i++) {
+        await new Promise((resolve) => {
+          const audio = new Audio(sino);
+          audio.currentTime = 0;
+          audio.play()
+            .then(() => {
+              audio.onended = () => resolve();
+            })
+            .catch(() => resolve());
+        });
+      }
+    } catch (e) {
+      console.error('Erro ao tocar sino 3x', e);
+    }
   };
 
   // ============ FUNÇÕES DE USUÁRIO ============
@@ -133,7 +161,6 @@ function App() {
     localStorage.removeItem('userName');
     setUserName('');
     setShowUserSetup(true);
-    // Limpar apenas o userName do IndexedDB, mantendo o histórico de horas
     try {
       const db = await initDatabase();
       const transaction = db.transaction(['users'], 'readwrite');
@@ -144,16 +171,23 @@ function App() {
     }
   };
 
+  // === REGISTRAR CICLO (SALVA NO HISTÓRICO) ===
   const registrarCicloEstudo = () => {
     if (!userName) return;
-    const hoje = new Date().toISOString().split('T');
+
+    const hoje = new Date().toISOString().split('T')[0]; // chave diária
+
     const novoEstudo = {
       minutos: estudoHoje.minutos + 50,
       ciclos: estudoHoje.ciclos + 1
     };
+
+    // salva para hoje (card do dia)
     localStorage.setItem(`estudo_${hoje}`, JSON.stringify(novoEstudo));
     saveToIndexedDB(`estudo_${hoje}`, novoEstudo);
     setEstudoHoje(novoEstudo);
+
+    // salva no histórico por usuário/dia
     const novasHoras = { ...horasEstudadas };
     if (!novasHoras[userName]) {
       novasHoras[userName] = {};
@@ -163,17 +197,19 @@ function App() {
     }
     novasHoras[userName][hoje].minutos += 50;
     novasHoras[userName][hoje].ciclos += 1;
+
     localStorage.setItem('horasEstudadas', JSON.stringify(novasHoras));
     saveToIndexedDB('horasEstudadas', novasHoras);
     setHorasEstudadas(novasHoras);
   };
 
-  // Funcionalidade do método pomodoro
+  // Relógio em tempo real
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  // Reset diário
   useEffect(() => {
     const hoje = new Date().toISOString().split('T')[0];
     if (ultimaAtualizacao !== hoje && userName) {
@@ -184,7 +220,7 @@ function App() {
     }
   }, [userName, ultimaAtualizacao]);
 
-  // 50 minutos de foco e 10 de descanso
+  // 50 minutos foco / 10 descanso
   useEffect(() => {
     let interval;
     if (isRunning) {
@@ -192,14 +228,15 @@ function App() {
         setSecondsLeft((prev) => {
           if (prev === 0) {
             if (isOnBreak) {
+              // fim da pausa -> volta foco
               setIsOnBreak(false);
               playSoundThreeTimes();
               registrarCicloEstudo();
               return 50 * 60;
             } else {
+              // fim do foco -> entra pausa
               setIsOnBreak(true);
-              playSound();
-              playSound();
+              playSoundThreeTimes();
               return 10 * 60;
             }
           }
@@ -208,8 +245,9 @@ function App() {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isRunning, isOnBreak, userName]);
+  }, [isRunning, isOnBreak, userName, estudoHoje, horasEstudadas]);
 
+  // Salvar tasks
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(taskList));
   }, [taskList]);
@@ -217,7 +255,7 @@ function App() {
   const toggleTimer = () => {
     setIsRunning(!isRunning);
     if (!isRunning) {
-      playSound();
+      playSound(); // 1º clique libera o áudio
     }
   };
 
@@ -225,12 +263,6 @@ function App() {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  };
-
-  const playSoundThreeTimes = () => {
-    playSound();
-    setTimeout(() => playSound(), 250);
-    setTimeout(() => playSound(), 500);
   };
 
   // Fullscreen
@@ -311,12 +343,12 @@ function App() {
         {/* PAINEL FLUTUANTE DIREITO - Relógio + Stats */}
         <div className="absolute top-4 right-4 flex flex-col gap-3 z-10">
           
-          {/* Relógio pm/am - Sem fundo e sem bordas */}
+          {/* Relógio pm/am */}
           <div className="text-white text-2xl font-semibold text-center">
             {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
           </div>
 
-          {/* Botão Stats - Compacto, Expandível para Baixo com largura dinâmica */}
+          {/* Botão Stats + painel abaixo */}
           {userName && (
             <div className={`transition-all duration-300 ${showStats ? 'w-[320px]' : 'w-[150px]'}`}>
               <button
@@ -330,7 +362,6 @@ function App() {
                 {showStats ? '▲ Stats' : '▼ Stats'}
               </button>
 
-              {/* Painel Stats Expandível - Abre para Baixo */}
               {showStats && (
                 <div className="mt-2 bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-30 max-h-96 overflow-y-auto">
                   <Stats userName={userName} horasEstudadas={horasEstudadas} />
@@ -341,9 +372,8 @@ function App() {
 
         </div>
 
-        {/* PAINEL FLUTUANTE ESQUERDO */}
+        {/* PAINEL FLUTUANTE ESQUERDO - Card */}
         <div className="absolute top-4 left-4 w-[170px] flex flex-col gap-3 z-10">
-          {/* Card do usuário - Largura menor com opacidade de 20% */}
           {userName && (
             <div className="backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }}>
               <h3 className="text-xl font-bold">{userName}</h3>
@@ -367,7 +397,8 @@ function App() {
             </div>
           )}
         </div>
-        {/* YouTube Playlist - Posicionado abaixo do painel do usuário */}
+
+        {/* YouTube abaixo do card */}
         <div className="absolute top-48 left-4 w-[280px] z-10">
           <iframe
             width="280"
@@ -382,7 +413,7 @@ function App() {
           ></iframe>
         </div>
 
-        {/* Spotify - Posicionado no canto inferior */}
+        {/* Spotify embaixo à esquerda */}
         <div className="absolute bottom-4 left-4 w-[280px] z-10">
           <iframe 
             src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
@@ -396,7 +427,7 @@ function App() {
           ></iframe>
         </div>
 
-        {/* Títulos Centralizados */}
+        {/* Títulos */}
         <div className="text-center">
           <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
           <h2 className="text-1xl font-medium text-pink-600">@iemstudies</h2>
@@ -404,7 +435,7 @@ function App() {
         
         <Input taskList={taskList} setTaskList={setTaskList} />
         
-        {/* To-Do List */}
+        {/* Lista de tarefas */}
         <div className="flex flex-col gap-2 mt-3 text-white items-center justify-center w-full h-auto">
           {taskList.map((task, index) => (
             <Board
@@ -417,7 +448,7 @@ function App() {
           ))}
         </div>
 
-        {/* Botão do método pomodoro */}
+        {/* Pomodoro */}
         <div className="absolute bottom-4 right-4">
           <button
             onClick={toggleTimer}
@@ -429,6 +460,8 @@ function App() {
             {isOnBreak ? '☕ Break' : 'Focus'}: {formatTime(secondsLeft)}
           </div>
         </div>
+
+        {/* Fullscreen */}
         <button
           onClick={isFullscreen ? sairDeTelaCheia : entrarEmTelaCheia}
           className="bg-pink-300 hover:bg-pink-400 text-white py-1 px-3 rounded absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-40"

@@ -21,7 +21,7 @@ function Stats({ userName, horasEstudadas }) {
     for (let i = 6; i >= 0; i--) {
       const data = new Date();
       data.setDate(data.getDate() - i);
-      const dateStr = data.toISOString().split('T');
+      const dateStr = data.toISOString().split('T')[0];
       const estudo = horasEstudadas[userName][dateStr] || { minutos: 0, ciclos: 0 };
       
       // Formatar data (DD/MM)
