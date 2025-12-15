@@ -129,10 +129,22 @@ function App() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem('userName');
     localStorage.removeItem('horasEstudadas');
-    window.location.reload();
+    localStorage.removeItem('ultimaAtualizacao');
+    setUserName('');
+    setShowUserSetup(true);
+    // Limpar também do IndexedDB
+    try {
+      const db = await initDatabase();
+      const transaction = db.transaction(['users'], 'readwrite');
+      const store = transaction.objectStore('users');
+      store.delete('userName');
+      store.delete('horasEstudadas');
+    } catch (error) {
+      console.error('Erro ao limpar IndexedDB:', error);
+    }
   };
 
   const registrarCicloEstudo = () => {
@@ -318,7 +330,7 @@ function App() {
                     : 'bg-gradient-to-r from-pink-400 to-pink-600 text-white hover:shadow-lg'
                 }`}
               >
-                {showStats ? '▼ Stats' : '▲ Stats'}
+                {showStats ? '▲ Stats' : '▼ Stats'}
               </button>
 
               {/* Painel Stats Expandível - Abre para Baixo */}
@@ -333,10 +345,10 @@ function App() {
         </div>
 
         {/* PAINEL FLUTUANTE ESQUERDO */}
-        <div className="absolute top-4 left-4 w-[230px] flex flex-col gap-3 z-10">
-          {/* Card do usuário - Largura menor com opacidade de 30% */}
+        <div className="absolute top-4 left-4 w-[170px] flex flex-col gap-3 z-10">
+          {/* Card do usuário - Largura menor com opacidade de 20% */}
           {userName && (
-            <div className="bg-white bg-opacity-30 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
+            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
               <h3 className="text-xl font-bold">{userName}</h3>
               <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
               <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
@@ -358,8 +370,8 @@ function App() {
             </div>
           )}
         </div>
-        {/* YouTube Playlist - Posicionado no lado esquerdo */}
-        <div className="absolute top-1/3 left-4 w-[280px] z-10">
+        {/* YouTube Playlist - Posicionado abaixo do painel do usuário */}
+        <div className="absolute top-40 left-4 w-[280px] z-10">
           <iframe
             width="280"
             height="158"
@@ -373,8 +385,8 @@ function App() {
           ></iframe>
         </div>
 
-        {/* Spotify - Posicionado no lado esquerdo abaixo do YouTube */}
-        <div className="absolute top-2/3 left-4 w-[280px] z-10">
+        {/* Spotify - Posicionado no canto inferior */}
+        <div className="absolute bottom-4 left-4 w-[280px] z-10">
           <iframe 
             src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
             width="280" 
