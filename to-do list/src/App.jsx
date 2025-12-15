@@ -300,16 +300,16 @@ function App() {
         />
         
         {/* PAINEL FLUTUANTE DIREITO - Relógio + Stats */}
-        <div className="absolute top-4 right-4 w-[200px] flex flex-col gap-3 z-10">
+        <div className="absolute top-4 right-4 flex flex-col gap-3 z-10">
           
-          {/* Relógio pm/am */}
-          <div className="text-white text-xl font-semibold text-center bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-3 border border-white border-opacity-30">
+          {/* Relógio pm/am - Sem fundo e sem bordas */}
+          <div className="text-white text-2xl font-semibold text-center">
             {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
           </div>
 
-          {/* Botão Stats - Compacto, Expandível para Baixo */}
+          {/* Botão Stats - Compacto, Expandível para Baixo com largura dinâmica */}
           {userName && (
-            <div className="w-full">
+            <div className={`transition-all duration-300 ${showStats ? 'w-[320px]' : 'w-[150px]'}`}>
               <button
                 onClick={() => setShowStats(!showStats)}
                 className={`w-full py-2 px-3 rounded-lg font-semibold text-xs transition-all ${
@@ -333,10 +333,10 @@ function App() {
         </div>
 
         {/* PAINEL FLUTUANTE ESQUERDO */}
-        <div className="absolute top-4 left-4 w-[300px] flex flex-col gap-3 z-10">
-          {/* Card do usuário */}
+        <div className="absolute top-4 left-4 w-[230px] flex flex-col gap-3 z-10">
+          {/* Card do usuário - Largura menor com opacidade de 30% */}
           {userName && (
-            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
+            <div className="bg-white bg-opacity-30 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
               <h3 className="text-xl font-bold">{userName}</h3>
               <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
               <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
@@ -358,9 +358,8 @@ function App() {
             </div>
           )}
         </div>
-
-        {/* YouTube Playlist */}
-        <div>
+        {/* YouTube Playlist - Posicionado no lado esquerdo */}
+        <div className="absolute top-1/3 left-4 w-[280px] z-10">
           <iframe
             width="280"
             height="158"
@@ -374,8 +373,8 @@ function App() {
           ></iframe>
         </div>
 
-        {/* Spotify */}
-        <div>
+        {/* Spotify - Posicionado no lado esquerdo abaixo do YouTube */}
+        <div className="absolute top-2/3 left-4 w-[280px] z-10">
           <iframe 
             src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
             width="280" 
@@ -387,6 +386,7 @@ function App() {
             className="rounded-lg w-full"
           ></iframe>
         </div>
+
         {/* Títulos Centralizados */}
         <div className="text-center">
           <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
@@ -420,8 +420,6 @@ function App() {
             {isOnBreak ? '☕ Break' : 'Focus'}: {formatTime(secondsLeft)}
           </div>
         </div>
-
-        {/* Botão Fullscreen */}
         <button
           onClick={isFullscreen ? sairDeTelaCheia : entrarEmTelaCheia}
           className="bg-pink-300 hover:bg-pink-400 text-white py-1 px-3 rounded absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-40"
