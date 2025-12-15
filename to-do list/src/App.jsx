@@ -345,7 +345,7 @@ function App() {
         <div className="absolute top-4 left-4 w-[170px] flex flex-col gap-3 z-10">
           {/* Card do usuário - Largura menor com opacidade de 20% */}
           {userName && (
-            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
+            <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
               <h3 className="text-xl font-bold">{userName}</h3>
               <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
               <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
@@ -368,7 +368,7 @@ function App() {
           )}
         </div>
         {/* YouTube Playlist - Posicionado abaixo do painel do usuário */}
-        <div className="absolute top-40 left-4 w-[280px] z-10">
+        <div className="absolute top-56 left-4 w-[280px] z-10">
           <iframe
             width="280"
             height="158"

@@ -46,19 +46,19 @@ function Stats({ userName, horasEstudadas }) {
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="bg-white bg-opacity-10 rounded-lg p-4 text-center">
           <p className="text-3xl font-bold text-pink-400">{calcularTotalHoras()}h</p>
-          <p className="text-sm text-gray-300">Total de horas</p>
+          <p className="text-sm text-white">Total de horas</p>
         </div>
         <div className="bg-white bg-opacity-10 rounded-lg p-4 text-center">
           <p className="text-3xl font-bold text-pink-400">{calcularCiclosTotal()}</p>
-          <p className="text-sm text-gray-300">Total de ciclos</p>
+          <p className="text-sm text-white">Total de ciclos</p>
         </div>
         <div className="bg-white bg-opacity-10 rounded-lg p-4 text-center">
           <p className="text-3xl font-bold text-pink-400">{diasComEstudo()}</p>
-          <p className="text-sm text-gray-300">Dias estudados</p>
+          <p className="text-sm text-white">Dias estudados</p>
         </div>
         <div className="bg-white bg-opacity-10 rounded-lg p-4 text-center">
           <p className="text-3xl font-bold text-pink-400">{(calcularTotalHoras() / Math.max(diasComEstudo(), 1)).toFixed(1)}h</p>
-          <p className="text-sm text-gray-300">Média/Dia</p>
+          <p className="text-sm text-white">Média/Dia</p>
         </div>
       </div>
 
