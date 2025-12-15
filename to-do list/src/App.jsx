@@ -166,7 +166,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const hoje = new Date().toISOString().split('T');
+    const hoje = new Date().toISOString().split('T')[0];
     if (ultimaAtualizacao !== hoje && userName) {
       localStorage.setItem(`estudo_${hoje}`, JSON.stringify({ minutos: 0, ciclos: 0 }));
       setEstudoHoje({ minutos: 0, ciclos: 0 });
@@ -332,6 +332,33 @@ function App() {
 
         </div>
 
+        {/* PAINEL FLUTUANTE ESQUERDO */}
+        <div className="absolute top-4 left-4 w-[300px] flex flex-col gap-3 z-10">
+          {/* Card do usuário */}
+          {userName && (
+            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
+              <h3 className="text-xl font-bold">{userName}</h3>
+              <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
+              <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
+              <p className="text-xs text-gray-300 mt-2">Total: {(estudoHoje.minutos / 60).toFixed(1)}h</p>
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => setShowStats(!showStats)}
+                  className="text-xs bg-pink-400 px-3 py-1 rounded hover:bg-pink-600 transition"
+                >
+                  {showStats ? 'Ocultar' : 'Ver'} Stats
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="text-xs bg-red-400 px-3 py-1 rounded hover:bg-red-600 transition"
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* YouTube Playlist */}
         <div>
           <iframe
@@ -360,7 +387,6 @@ function App() {
             className="rounded-lg w-full"
           ></iframe>
         </div>
-
         {/* Títulos Centralizados */}
         <div className="text-center">
           <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
