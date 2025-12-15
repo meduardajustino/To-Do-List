@@ -131,17 +131,14 @@ function App() {
 
   const handleLogout = async () => {
     localStorage.removeItem('userName');
-    localStorage.removeItem('horasEstudadas');
-    localStorage.removeItem('ultimaAtualizacao');
     setUserName('');
     setShowUserSetup(true);
-    // Limpar também do IndexedDB
+    // Limpar apenas o userName do IndexedDB, mantendo o histórico de horas
     try {
       const db = await initDatabase();
       const transaction = db.transaction(['users'], 'readwrite');
       const store = transaction.objectStore('users');
       store.delete('userName');
-      store.delete('horasEstudadas');
     } catch (error) {
       console.error('Erro ao limpar IndexedDB:', error);
     }
