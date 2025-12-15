@@ -169,7 +169,7 @@ function App() {
 
   // ← ADICIONADO ISTO:
   useEffect(() => {
-    const hoje = new Date().toISOString().split('T');
+    const hoje = new Date().toISOString().split('T')[0];
     if (ultimaAtualizacao !== hoje && userName) {
       localStorage.setItem(`estudo_${hoje}`, JSON.stringify({ minutos: 0, ciclos: 0 }));
       setEstudoHoje({ minutos: 0, ciclos: 0 });
@@ -407,20 +407,19 @@ function App() {
         </div>
 
         {/* YouTube Playlist */}  
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 rounded-lg overflow-hidden bg-black shadow-lg">
           <iframe
             width="280"
             height="158"
-            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            src="https://www.youtube.com/embed/videoseries?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
             title="YouTube video player"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-            className="rounded-lg"
-            padding="1rem"
-          ></iframe>
+            className="block"
+          />
         </div>
+
 
         {/* Botão Fullscreen */}
         <button
