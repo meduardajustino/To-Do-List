@@ -262,7 +262,7 @@ function App() {
     <>
       {/* ADICIONE ISTO: */}
       {showUserSetup && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-35 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 shadow-2xl w-80">
             <h2 className="text-3xl font-bold mb-2 text-gray-800">Bem-vinda! 💕</h2>
             <p className="text-gray-600 mb-6">Digite seu nome para começar a rastrear suas horas de estudo:</p>
@@ -372,9 +372,22 @@ function App() {
         </div>
 
         {/* Painel de Estatísticas (quando ativado) */}
-        {showStats && userName && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 max-h-96 overflow-y-auto">
-            <Stats userName={userName} horasEstudadas={horasEstudadas} />
+        {userName && (
+          <div className="absolute bottom-32 right-4 w-72">
+            {/* Botão para expandir/retrair */}
+            <button
+              onClick={() => setShowStats(!showStats)}
+              className="w-full bg-gradient-to-r from-pink-400 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition mb-2"
+            >
+              {showStats ? '▼ Ocultar stats' : '▲ Ver stats'}
+            </button>
+            
+            {/* Painel expandível com os dados */}
+            {showStats && (
+              <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-30 max-h-96 overflow-y-auto">
+                <Stats userName={userName} horasEstudadas={horasEstudadas} />
+              </div>
+            )}
           </div>
         )}
 
