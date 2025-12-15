@@ -48,7 +48,6 @@ const getFromIndexedDB = async (key) => {
   }
 };
 
-
 function App() {
   const getTasksFromLocalStorage = () => {
     const storedTasks = localStorage.getItem('tasks');
@@ -90,12 +89,12 @@ function App() {
   }, []);
   
   const [estudoHoje, setEstudoHoje] = useState(() => {
-    const hoje = new Date().toISOString().split('T')[0];
+    const hoje = new Date().toISOString().split('T');
     const saved = localStorage.getItem(`estudo_${hoje}`);
     return saved ? JSON.parse(saved) : { minutos: 0, ciclos: 0 };
   });
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState(
-   localStorage.getItem('ultimaAtualizacao') || new Date().toISOString().split('T')[0]
+    localStorage.getItem('ultimaAtualizacao') || new Date().toISOString().split('T')
   );
   const [showStats, setShowStats] = useState(false);
 
@@ -138,7 +137,7 @@ function App() {
 
   const registrarCicloEstudo = () => {
     if (!userName) return;
-    const hoje = new Date().toISOString().split('T')[0];
+    const hoje = new Date().toISOString().split('T');
     const novoEstudo = {
       minutos: estudoHoje.minutos + 50,
       ciclos: estudoHoje.ciclos + 1
@@ -158,7 +157,6 @@ function App() {
     localStorage.setItem('horasEstudadas', JSON.stringify(novasHoras));
     saveToIndexedDB('horasEstudadas', novasHoras);
     setHorasEstudadas(novasHoras);
-
   };
 
   // Funcionalidade do método pomodoro
@@ -167,7 +165,6 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // ← ADICIONADO ISTO:
   useEffect(() => {
     const hoje = new Date().toISOString().split('T');
     if (ultimaAtualizacao !== hoje && userName) {
@@ -186,15 +183,13 @@ function App() {
         setSecondsLeft((prev) => {
           if (prev === 0) {
             if (isOnBreak) {
-              // Fim da pausa, iniciar novo ciclo
               setIsOnBreak(false);
               playSoundThreeTimes();
               registrarCicloEstudo();
-              return 50 * 60; // Volta ao ciclo
+              return 50 * 60;
             } else {
-              // Ciclo termina, iniciar descanso
               setIsOnBreak(true);
-              playSound(); // Sino quando ciclo termina
+              playSound();
               playSound();
               return 10 * 60;
             }
@@ -213,7 +208,7 @@ function App() {
   const toggleTimer = () => {
     setIsRunning(!isRunning);
     if (!isRunning) {
-      playSound(); // Toca o som quando o temporizador começa
+      playSound();
     }
   };
 
@@ -229,7 +224,6 @@ function App() {
     setTimeout(() => playSound(), 500);
   };
 
-
   // Fullscreen
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -237,32 +231,30 @@ function App() {
     let docElm = document.documentElement;
     if (docElm.requestFullscreen) {
       docElm.requestFullscreen();
-    } else if (docElm.webkitRequestFullscreen) { // Safari
+    } else if (docElm.webkitRequestFullscreen) {
       docElm.webkitRequestFullscreen();
-    } else if (docElm.msRequestFullscreen) { // IE/Edge
+    } else if (docElm.msRequestFullscreen) {
       docElm.msRequestFullscreen();
     }
-
     setIsFullscreen(true);
   };
 
   const sairDeTelaCheia = () => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) { // Safari
+    } else if (document.webkitExitFullscreen) {
       document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { // IE/Edge
+    } else if (document.msExitFullscreen) {
       document.msExitFullscreen();
     }
-
     setIsFullscreen(false);
   };
 
   return (
     <>
-      {/* ADICIONE ISTO: */}
+      {/* Modal de Boas-vindas */}
       {showUserSetup && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-35 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 shadow-2xl w-80">
             <h2 className="text-3xl font-bold mb-2 text-gray-800">Bem-vinda! 💕</h2>
             <p className="text-gray-600 mb-6">Digite seu nome para começar a rastrear suas horas de estudo:</p>
@@ -285,12 +277,11 @@ function App() {
               }}
               className="bg-gradient-to-r from-pink-400 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold w-full hover:shadow-lg transition"
             >
-              Começar a Estudar
+              Começar a estudar
             </button>
           </div>
         </div>
       )}
-
 
       <div
         style={{
@@ -308,35 +299,68 @@ function App() {
           onBackgroundChange={changeBackground}
         />
         
-        {/* Relógio pm/am */}
-        <div className="absolute top-4 right-4 text-white text-2xl font-semibold">
-          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
-        </div>
+        {/* PAINEL FLUTUANTE DIREITO - Relógio + Stats */}
+        <div className="absolute top-4 right-4 w-[200px] flex flex-col gap-3 z-10">
+          
+          {/* Relógio pm/am */}
+          <div className="text-white text-xl font-semibold text-center bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-3 border border-white border-opacity-30">
+            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+          </div>
 
-        {/* ADICIONE ISTO: */}
-        {userName && (
-          <div className="absolute top-4 left-4 bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
-            <h3 className="text-xl font-bold">{userName}</h3>
-            <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
-            <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
-            <p className="text-xs text-gray-300 mt-2">Total: {(estudoHoje.minutos / 60).toFixed(1)}h</p>
-            <div className="flex gap-2 mt-3">
+          {/* Botão Stats - Compacto, Expandível para Baixo */}
+          {userName && (
+            <div className="w-full">
               <button
                 onClick={() => setShowStats(!showStats)}
-                className="text-xs bg-pink-400 px-3 py-1 rounded hover:bg-pink-600 transition"
+                className={`w-full py-2 px-3 rounded-lg font-semibold text-xs transition-all ${
+                  showStats 
+                    ? 'bg-gradient-to-r from-pink-500 to-pink-700 text-white shadow-lg' 
+                    : 'bg-gradient-to-r from-pink-400 to-pink-600 text-white hover:shadow-lg'
+                }`}
               >
-                {showStats ? 'Ocultar' : 'Ver'} Stats
+                {showStats ? '▼ Stats' : '▲ Stats'}
               </button>
-              <button
-                onClick={handleLogout}
-                className="text-xs bg-red-400 px-3 py-1 rounded hover:bg-red-600 transition"
-              >
-                Sair
-              </button>
+
+              {/* Painel Stats Expandível - Abre para Baixo */}
+              {showStats && (
+                <div className="mt-2 bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-30 max-h-96 overflow-y-auto">
+                  <Stats userName={userName} horasEstudadas={horasEstudadas} />
+                </div>
+              )}
             </div>
-          </div>
-        )}
-        
+          )}
+
+        </div>
+
+        {/* YouTube Playlist */}
+        <div>
+          <iframe
+            width="280"
+            height="158"
+            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="rounded-lg w-full"
+          ></iframe>
+        </div>
+
+        {/* Spotify */}
+        <div>
+          <iframe 
+            src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
+            width="280" 
+            height="152" 
+            frameBorder="0" 
+            allowFullScreen 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"
+            className="rounded-lg w-full"
+          ></iframe>
+        </div>
+
         {/* Títulos Centralizados */}
         <div className="text-center">
           <h1 className="text-5xl font-bold text-white">TO-DO LIST</h1>
@@ -369,44 +393,6 @@ function App() {
           <div className="mt-2 text-white text-lg font-semibold">
             {isOnBreak ? '☕ Break' : 'Focus'}: {formatTime(secondsLeft)}
           </div>
-        </div>
-
-        {/* Painel de Estatísticas (quando ativado) */}
-        {showStats && userName && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 max-h-96 overflow-y-auto">
-            <Stats userName={userName} horasEstudadas={horasEstudadas} />
-          </div>
-        )}
-
-        {/* Spotify com sons lofi para melhorar os estudos */}
-        <div className="absolute bottom-3 left-3 w-full max-w-xs">
-          <iframe 
-            src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
-            width="93%" 
-            height="152" 
-            frameBorder="0" 
-            allowFullScreen 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            className="rounded-lg"
-            padding="1rem"
-          ></iframe>
-        </div>
-
-        {/* YouTube Playlist */}  
-        <div className="absolute top-3 left-3">
-          <iframe
-            width="250"
-            height="140"
-            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            className="rounded-lg"
-            padding="1rem"
-          ></iframe>
         </div>
 
         {/* Botão Fullscreen */}
