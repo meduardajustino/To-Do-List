@@ -285,7 +285,7 @@ function App() {
               }}
               className="bg-gradient-to-r from-pink-400 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold w-full hover:shadow-lg transition"
             >
-              Começar a Estudar
+              Começar a estudar
             </button>
           </div>
         </div>
@@ -379,10 +379,10 @@ function App() {
         )}
 
         {/* Spotify com sons lofi para melhorar os estudos */}
-        <div className="absolute bottom-3 left-3 w-full max-w-xs">
+        <div className="absolute bottom-3 left-3 w-[280px] flex flex-col gap-3 z-10">
           <iframe 
             src="https://open.spotify.com/embed/playlist/2LmtPsNX1WQDhsD4DnPwkb?utm_source=generator&theme=0" 
-            width="93%" 
+            width="280" 
             height="152" 
             frameBorder="0" 
             allowFullScreen 
@@ -396,8 +396,8 @@ function App() {
         {/* YouTube Playlist */}  
         <div className="absolute top-3 left-3">
           <iframe
-            width="250"
-            height="140"
+            width="280"
+            height="158"
             src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
             title="YouTube video player"
             frameBorder="0"
