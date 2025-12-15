@@ -313,29 +313,31 @@ function App() {
           {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
         </div>
 
-        {/* ADICIONE ISTO: */}
-        {userName && (
-          <div className="absolute top-4 left-4 bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
-            <h3 className="text-xl font-bold">{userName}</h3>
-            <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
-            <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
-            <p className="text-xs text-gray-300 mt-2">Total: {(estudoHoje.minutos / 60).toFixed(1)}h</p>
-            <div className="flex gap-2 mt-3">
-              <button
-                onClick={() => setShowStats(!showStats)}
-                className="text-xs bg-pink-400 px-3 py-1 rounded hover:bg-pink-600 transition"
-              >
-                {showStats ? 'Ocultar' : 'Ver'} Stats
-              </button>
-              <button
-                onClick={handleLogout}
-                className="text-xs bg-red-400 px-3 py-1 rounded hover:bg-red-600 transition"
-              >
-                Sair
-              </button>
+        {/* PAINEL FLUTUANTE ESQUERDO */}
+        <div className="absolute top-4 left-4 w-[300px] flex flex-col gap-3 z-10">
+          {/* Card do usuário */}
+          {userName && (
+            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 text-white border border-white border-opacity-30">
+              <h3 className="text-xl font-bold">{userName}</h3>
+              <p className="text-sm mt-1">Hoje: <span className="font-semibold">{estudoHoje.minutos} min</span></p>
+              <p className="text-sm">Ciclos: <span className="font-semibold">{estudoHoje.ciclos}</span></p>
+              <p className="text-xs text-gray-300 mt-2">Total: {(estudoHoje.minutos / 60).toFixed(1)}h</p>
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => setShowStats(!showStats)}
+                  className="text-xs bg-pink-400 px-3 py-1 rounded hover:bg-pink-600 transition"
+                >
+                  {showStats ? 'Ocultar' : 'Ver'} Stats
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="text-xs bg-red-400 px-3 py-1 rounded hover:bg-red-600 transition"
+                >
+                  Sair
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         
         {/* Títulos Centralizados */}
         <div className="text-center">
@@ -406,20 +408,20 @@ function App() {
           ></iframe>
         </div>
 
-        {/* YouTube Playlist */}  
-        <div className="absolute top-3 left-3 rounded-lg overflow-hidden bg-black shadow-lg">
+        {/* YouTube Playlist */}
+        <div>
           <iframe
             width="280"
             height="158"
-            src="https://www.youtube.com/embed/videoseries?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
             title="YouTube video player"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-            className="block"
-          />
+            className="rounded-lg w-full"
+          ></iframe>
         </div>
-
 
         {/* Botão Fullscreen */}
         <button
