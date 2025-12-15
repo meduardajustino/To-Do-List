@@ -368,7 +368,7 @@ function App() {
           )}
         </div>
         {/* YouTube Playlist - Posicionado abaixo do painel do usuário */}
-        <div className="absolute top-56 left-4 w-[280px] z-10">
+        <div className="absolute top-65 left-4 w-[280px] z-10">
           <iframe
             width="280"
             height="158"
