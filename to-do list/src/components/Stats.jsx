@@ -17,6 +17,12 @@ function Stats({ userName, horasEstudadas, metaDiaria, setMetaDiaria, estudoHoje
     return diasDoUsuario.reduce((acc, dia) => acc + dia.ciclos, 0);
   };
 
+  const diasComEstudo = () => {
+    if (!horasEstudadas[userName]) return 0;
+    const diasDoUsuario = Object.values(horasEstudadas[userName]);
+    return diasDoUsuario.filter(dia => dia.minutos > 0).length;
+  };
+
   const obterUltimos7Dias = () => {
     if (!horasEstudadas[userName]) return [];
     
