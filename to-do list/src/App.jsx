@@ -6,6 +6,14 @@ import Stats from './components/Stats.jsx';
 import sino from './components/sounds/sino.mp3';
 import "./App.css";
 
+// ============ HELPER FUNCTION - LOCAL DATE ============
+const getHojeLocal = () => {
+  const d = new Date();
+  const ano = d.getFullYear();
+  const mes = String(d.getMonth() + 1).padStart(2, '0');
+  const dia = String(d.getDate()).padStart(2, '0');
+  return `${ano}-${mes}-${dia}`; // YYYY-MM-DD in local timezone
+};
 
 // ============ SETUP INDEXEDDB ============
 const initDatabase = () => {
@@ -93,14 +101,38 @@ function App() {
   
   // === ESTUDO HOJE E DATA ===
   const [estudoHoje, setEstudoHoje] = useState(() => {
-    const hoje = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+    const hoje = getHojeLocal();
     const saved = localStorage.getItem(`estudo_${hoje}`);
     return saved ? JSON.parse(saved) : { minutos: 0, ciclos: 0 };
   });
 
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState(
-    localStorage.getItem('ultimaAtualizacao') || new Date().toISOString().split('T')[0]
+    localStorage.getItem('ultimaAtualizacao') || getHojeLocal()
   );
+
+  // === META DIÁRIA ===
+  const [metaDiaria, setMetaDiaria] = useState(() => {
+    const saved = localStorage.getItem('metaDiaria');
+    return saved ? parseInt(saved) : 300; // 5 horas padrão em minutos
+  });
+
+  useEffect(() => {
+    localStorage.setItem('metaDiaria', metaDiaria.toString());
+  }, [metaDiaria]);
+
+  // === MONITORAR MUDANÇA DE DIA ===
+  useEffect(() => {
+    const hoje = getHojeLocal();
+    const ultimaSalva = localStorage.getItem('ultimaAtualizacao');
+    
+    if (ultimaSalva !== hoje) {
+      // Novo dia detectado
+      localStorage.setItem(`estudo_${hoje}`, JSON.stringify({ minutos: 0, ciclos: 0 }));
+      localStorage.setItem('ultimaAtualizacao', hoje);
+      setEstudoHoje({ minutos: 0, ciclos: 0 });
+      setUltimaAtualizacao(hoje);
+    }
+  }, [time]); // Verifica a cada segundo (junto com o relógio)
 
   const [showStats, setShowStats] = useState(false);
 
@@ -175,7 +207,7 @@ function App() {
   const registrarCicloEstudo = () => {
     if (!userName) return;
 
-    const hoje = new Date().toISOString().split('T')[0]; // chave diária
+    const hoje = getHojeLocal();
 
     const novoEstudo = {
       minutos: estudoHoje.minutos + 50,
@@ -211,7 +243,7 @@ function App() {
 
   // Reset diário
   useEffect(() => {
-    const hoje = new Date().toISOString().split('T')[0];
+    const hoje = getHojeLocal();
     if (ultimaAtualizacao !== hoje && userName) {
       localStorage.setItem(`estudo_${hoje}`, JSON.stringify({ minutos: 0, ciclos: 0 }));
       setEstudoHoje({ minutos: 0, ciclos: 0 });
@@ -364,7 +396,13 @@ function App() {
 
               {showStats && (
                 <div className="mt-2 bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-30 max-h-96 overflow-y-auto">
-                  <Stats userName={userName} horasEstudadas={horasEstudadas} />
+                  <Stats 
+                    userName={userName} 
+                    horasEstudadas={horasEstudadas}
+                    metaDiaria={metaDiaria}
+                    setMetaDiaria={setMetaDiaria}
+                    estudoHoje={estudoHoje}
+                  />
                 </div>
               )}
             </div>
