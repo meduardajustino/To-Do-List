@@ -454,18 +454,18 @@ function App() {
 
         {/* Spotify embaixo à esquerda */}
         <div className="absolute bottom-4 left-4 w-[280px] z-10">
-          <iframe 
-            data-testid="embed-iframe"
-            style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/7BPsleoF9aN8Uye9U03j1H?utm_source=generator" 
-            width="280" 
-            height="152" 
-            frameBorder="0" 
-            allowFullScreen 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            className="rounded-lg w-full"
-          ></iframe>
+          <iframe
+              data-testid="embed-iframe"
+              style={{ borderRadius: '12px' }}
+              src="https://open.spotify.com/embed/playlist/7BPsleoF9aN8Uye9U03j1H?utm_source=generator"
+              width="280"
+              height="152"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              allowFullScreen
+              className="rounded-lg w-full"
+          />
         </div>
       
         {/* Títulos */}
