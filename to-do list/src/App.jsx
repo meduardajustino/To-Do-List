@@ -441,7 +441,7 @@ function App() {
           <iframe
             width="280"
             height="158"
-            src="https://www.youtube.com/embed/videoseries?si=arFtdU6K5g_2r1J3&amp;list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            src="https://www.youtube-nocookie.com/embed/videoseries?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -450,6 +450,7 @@ function App() {
             className="rounded-lg w-full"
           ></iframe>
         </div>
+        
 
         {/* Spotify embaixo à esquerda */}
         <div className="absolute bottom-4 left-4 w-[280px] z-10">
