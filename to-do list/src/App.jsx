@@ -367,7 +367,7 @@ function App() {
         >
           <div className="relative w-full max-w-5xl">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-white font-semibold text-lg">🎬 Playlist de estudos</span>
+              <span className="text-white font-semibold text-lg">study with me 👩🏼‍🎓</span>
               <div className="flex gap-3">
                 <a
                   href="https://www.youtube.com/playlist?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
@@ -479,7 +479,7 @@ function App() {
         </div>
 
         {/* YouTube abaixo do card */}
-        <div className="absolute top-47 left-4 w-[400px] z-10">
+        <div className="absolute top-47 left-4 w-[360px] z-10">
           <iframe
             className="rounded-lg w-full aspect-video"
             src="https://www.youtube.com/embed/videoseries?listType=playlist&list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
@@ -499,7 +499,7 @@ function App() {
         
 
         {/* Spotify embaixo à esquerda */}
-        <div className="absolute bottom-4 left-4 w-[400px] z-10">
+        <div className="absolute bottom-4 left-4 w-[360px] z-10">
           <iframe
               data-testid="embed-iframe"
               style={{ borderRadius: '12px' }}
