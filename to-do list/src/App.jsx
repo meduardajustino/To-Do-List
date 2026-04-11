@@ -74,6 +74,9 @@ function App() {
   const [userName, setUserName] = useState('');
   const [showUserSetup, setShowUserSetup] = useState(true);
 
+  // ============ MODAL YOUTUBE ============
+  const [showYoutubeModal, setShowYoutubeModal] = useState(false);
+
   // ============ CARREGAR NOME DO INDEXEDDB ============
   useEffect(() => {
     const loadUserName = async () => {
@@ -356,6 +359,45 @@ function App() {
         </div>
       )}
 
+            {/* Modal YouTube Expandido */}
+      {showYoutubeModal && (
+        <div
+          className="fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4"
+          onClick={(e) => { if (e.target === e.currentTarget) setShowYoutubeModal(false); }}
+        >
+          <div className="relative w-full max-w-5xl">
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-white font-semibold text-lg">🎬 Playlist de estudos</span>
+              <div className="flex gap-3">
+                <a
+                  href="https://www.youtube.com/playlist?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-pink-400 hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
+                >
+                  Abrir no YouTube ↗
+                </a>
+                <button
+                  onClick={() => setShowYoutubeModal(false)}
+                  className="bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
+                >
+                  ✕ Fechar
+                </button>
+              </div>
+            </div>
+            <iframe
+              className="w-full aspect-video rounded-xl"
+              src="https://www.youtube.com/embed/videoseries?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+              title="YouTube playlist player expandido"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
+
       <div
         style={{
           backgroundImage: backgroundImage,
@@ -437,7 +479,7 @@ function App() {
         </div>
 
         {/* YouTube abaixo do card */}
-        <div className="absolute top-46 left-4 w-[520px] z-10">
+        <div className="absolute top-47 left-4 w-[400px] z-10">
           <iframe
             className="rounded-lg w-full aspect-video"
             src="https://www.youtube.com/embed/videoseries?listType=playlist&list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
@@ -447,17 +489,23 @@ function App() {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
+          <button
+            onClick={() => setShowYoutubeModal(true)}
+            className="mt-2 w-full bg-pink-400 hover:bg-pink-600 text-white py-1.5 rounded-lg text-xs font-semibold transition"
+          >
+            🎬 Expandir playlist
+          </button>
         </div>
         
 
         {/* Spotify embaixo à esquerda */}
-        <div className="absolute bottom-4 left-4 w-[320px] z-10">
+        <div className="absolute bottom-4 left-4 w-[400px] z-10">
           <iframe
               data-testid="embed-iframe"
               style={{ borderRadius: '12px' }}
               src="https://open.spotify.com/embed/playlist/7BPsleoF9aN8Uye9U03j1H?utm_source=generator"
               width="100%"
-              height="352"
+              height="152"
               frameBorder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
