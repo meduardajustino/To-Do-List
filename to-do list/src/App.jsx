@@ -479,7 +479,7 @@ function App() {
         </div>
 
         {/* YouTube abaixo do card */}
-        <div className="absolute top-44 left-4 w-[360px] z-10">
+        <div className="absolute top-48 left-4 w-[360px] z-10">
           <iframe
             className="rounded-lg w-full aspect-video"
             src="https://www.youtube.com/embed/videoseries?listType=playlist&list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
