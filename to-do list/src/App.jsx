@@ -437,28 +437,26 @@ function App() {
         </div>
 
         {/* YouTube abaixo do card */}
-        <div className="absolute top-48 left-4 w-[280px] z-10">
+        <div className="absolute top-48 left-4 w-[320px] z-10">
           <iframe
-            width="280"
-            height="158"
-            src="https://www.youtube-nocookie.com/embed/videoseries?list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
-            title="YouTube video player"
+            className="rounded-lg w-full aspect-video"
+            src="https://www.youtube.com/embed/videoseries?listType=playlist&list=PLUAsoNWPBs1GO-JmZuztxoEmawqOYd-Df"
+            title="YouTube playlist player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-            className="rounded-lg w-full"
-          ></iframe>
+          />
         </div>
         
 
         {/* Spotify embaixo à esquerda */}
-        <div className="absolute bottom-4 left-4 w-[280px] z-10">
+        <div className="absolute bottom-4 left-4 w-[320px] z-10">
           <iframe
               data-testid="embed-iframe"
               style={{ borderRadius: '12px' }}
               src="https://open.spotify.com/embed/playlist/7BPsleoF9aN8Uye9U03j1H?utm_source=generator"
-              width="280"
+              width="100%"
               height="152"
               frameBorder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -467,6 +465,7 @@ function App() {
               className="rounded-lg w-full"
           />
         </div>
+
       
         {/* Títulos */}
         <div className="text-center">
